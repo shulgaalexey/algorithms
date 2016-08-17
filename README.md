@@ -6,3 +6,4 @@ Dynamic Programming
  - Matrix Chain Product
  - Fibonacci
  - Longest Common Sequence
+ - Optimal Binary Search Tree
