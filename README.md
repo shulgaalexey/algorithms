@@ -8,3 +8,4 @@ Dynamic Programming
  - Longest Common Sequence
  - Optimal Binary Search Tree
  - Longest Path in directed acyclic graph
+ - Longest Length of the Palindrome
