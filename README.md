@@ -9,3 +9,4 @@ Dynamic Programming
  - Optimal Binary Search Tree
  - Longest Path in directed acyclic graph
  - Longest Length of the Palindrome
+ - Bitonic euclidean traveling salesperson problem (to be fixed)
