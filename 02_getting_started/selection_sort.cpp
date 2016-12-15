@@ -34,5 +34,7 @@ int main(void) {
 		cout << a[i] << " ";
 	cout << endl;
 
+	delete [] a;
+
 	return 0;
 }
