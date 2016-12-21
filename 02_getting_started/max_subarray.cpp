@@ -57,9 +57,18 @@ max_item_s find_max_subarray(int *a, const int from, const int to) {
 }
 
 int main(void) {
-	int a[] = {13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7};
-	const int n = int(sizeof(a) / sizeof(a[0]));
-	max_item_s r = find_max_subarray(a, 0, n - 1);
-	cout << r.v << " at [" << r.from << ", " << r.to << "]" << endl;
+	{
+		int a[] = {13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7};
+		const int n = int(sizeof(a) / sizeof(a[0]));
+		max_item_s r = find_max_subarray(a, 0, n - 1);
+		cout << r.v << " at [" << r.from << ", " << r.to << "]" << endl;
+	}
+
+	{
+		int a[] = {13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4};
+		const int n = int(sizeof(a) / sizeof(a[0]));
+		max_item_s r = find_max_subarray(a, 0, n - 1);
+		cout << r.v << " at [" << r.from << ", " << r.to << "]" << endl;
+	}
 	return 0;
 }
