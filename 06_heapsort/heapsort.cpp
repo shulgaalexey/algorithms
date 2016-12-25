@@ -72,10 +72,10 @@ int main(void) {
 			for (int i = 1; i < n; i++) {
 				if (a[i] < a[i -1]) {
 					cout << "ERROR" << endl;
-					break;
+					return 0;
 				}
 			}
-			cout << endl;
+			cout << "OK" << endl << endl;
 		}
 	}
 	return 0;
