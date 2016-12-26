@@ -18,6 +18,7 @@ class priority_queue {
 		int max() const;
 		int extract_max();
 		void increase(int i, const int k);
+		void remove(const int i);
 		bool empty() const;
 	private:
 		void swap(const int i, const int j);
@@ -80,6 +81,19 @@ void priority_queue::increase(int i, const int k) {
 	}
 }
 
+void priority_queue::remove(const int i) {
+	if ((i < 0) || (i >= __cur_size))
+		throw "Index is out of range";
+
+	if (i == (__cur_size - 1)) {
+		__cur_size--;
+	} else {
+		swap(i, __cur_size - 1);
+		__cur_size--;
+		max_heapify(i);
+	}
+}
+
 bool priority_queue::empty() const {
 	return (__cur_size <= 0);
 }
@@ -132,7 +146,13 @@ int main(void) {
 
 		cout << "------" << endl;
 
-		for (int i = 0; i < 10; i ++) {
+		pq.remove(4);
+		pq.remove(5);
+
+		cout << "------" << endl;
+
+		//for (int i = 0; i < 10; i ++) {
+		while (!pq.empty()) {
 			const int v = pq.extract_max();
 			cout << "Extracted: " << v << " [max: ";
 			if (!pq.empty())
