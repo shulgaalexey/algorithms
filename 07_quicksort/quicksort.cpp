@@ -77,6 +77,25 @@ void quicksort_hoare(int *a, int p, int r) {
 }
 
 // Tests -----------------------------------------------------------------------
+bool check_sorted(int *a, int n, int *x, const string &tag) {
+	for (int i = 1; i < n; i++) {
+		if (a[i] < a[i - 1]) {
+			cout << "ERROR: " << tag << endl;
+
+			for (int i = 0; i < n; i++)
+				cout << x[i] << " ";
+			cout << endl;
+
+			for (int i = 0; i < n; i++)
+				cout << a[i] << " ";
+			cout << endl;
+
+			return false;
+		}
+	}
+	return true;
+}
+
 int main(void) {
 	srand(time(NULL));
 
@@ -99,73 +118,63 @@ int main(void) {
 		//return 0;
 	}
 
-	// Regular partition
-	for (int test = 1; test < 20; test++) {
+	// Regular, Randomized and Hoare partition
+	for (int test = 1; test < 40; test++) {
 		const int n = test;
 		int a[n] = {0};
-		for (int i = 0; i < n; i++) {
-			a[i] = rand() % 10;
-			cout << a[i] << " ";
+		int b[n] = {0};
+		int c[n] = {0};
+		int x[n] = {0};
+
+		if (test == 13) { // Same value
+			cout << "--> same values..." << endl;
+			for (int i = 0; i < n; i ++) {
+				a[i] = 13;
+				b[i] = 13;
+				c[i] = 13;
+				x[i] = 13;
+			}
+		} else if (test == 14) { // Increasing
+			cout << "--> increasing..." << endl;
+			for (int i = 0; i < n; i ++) {
+				a[i] = i;
+				b[i] = i;
+				c[i] = i;
+				x[i] = i;
+			}
+		} else if (test == 15) { // Decreasing
+			cout << "--> decreasing..." << endl;
+			for (int i = 0; i < n; i ++) {
+				a[i] = 20 - i;
+				b[i] = 20 - i;
+				c[i] = 20 - i;
+				x[i] = 20 - i;
+			}
+		} else { // Random values
+			for (int i = 0; i < n; i++) {
+				a[i] = rand() % 20;
+				b[i] = a[i];
+				c[i] = a[i];
+				x[i] = a[i];
+			}
 		}
-		cout << endl;
+
+		// Regular partition
 		quicksort(a, 0, n - 1);
-		for (int i = 0; i < n; i++)
-			cout << a[i] << " ";
-		cout << endl;
+		if (!check_sorted(a, n, x, "regular"))
+			return 1;
 
-		for (int i = 1; i < n; i++) {
-			if (a[i] < a[i - 1]) {
-				cout << "ERROR" << endl;
-				return 1;
-			}
-		}
-		cout << "OK" << endl << endl;
-	}
+		// Regular partition
+		quicksort_randomized(b, 0, n - 1);
+		if (!check_sorted(b, n, x, "randomized"))
+			return 2;
 
-	// Randomized partition
-	for (int test = 1; test < 40; test++) {
-		const int n = test;
-		int a[n] = {0};
-		for (int i = 0; i < n; i++) {
-			a[i] = rand() % 20;
-			cout << a[i] << " ";
-		}
-		cout << endl;
-		quicksort_randomized(a, 0, n - 1);
-		for (int i = 0; i < n; i++)
-			cout << a[i] << " ";
-		cout << endl;
+		// Hoare partition
+		quicksort_hoare(c, 0, n - 1);
+		if (!check_sorted(c, n, x, "hoare"))
+			return 3;
 
-		for (int i = 1; i < n; i++) {
-			if (a[i] < a[i - 1]) {
-				cout << "ERROR" << endl;
-				return 1;
-			}
-		}
-		cout << "OK" << endl << endl;
-	}
-
-	// Partition Hoare
-	for (int test = 1; test < 40; test++) {
-		const int n = test;
-		int a[n] = {0};
-		for (int i = 0; i < n; i++) {
-			a[i] = rand() % 20;
-			cout << a[i] << " ";
-		}
-		cout << endl;
-		quicksort_hoare(a, 0, n - 1);
-		for (int i = 0; i < n; i++)
-			cout << a[i] << " ";
-		cout << endl;
-
-		for (int i = 1; i < n; i++) {
-			if (a[i] < a[i - 1]) {
-				cout << "ERROR" << endl;
-				return 1;
-			}
-		}
-		cout << "OK" << endl << endl;
+		cout << "test: " << test << " OK" << endl;
 	}
 
 	return 0;
