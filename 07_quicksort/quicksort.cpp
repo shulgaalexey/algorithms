@@ -9,6 +9,7 @@ void swap(int *a, int i, int j) {
 	a[j] = tmp;
 }
 
+// Regular partition ----------------------------------------------------------
 int partition(int *a, int p, int r) {
 	int pivot = a[r];
 	int i = p - 1;
@@ -30,6 +31,7 @@ void quicksort(int *a, int p, int r) {
 	}
 }
 
+// Randomized partition --------------------------------------------------------
 int partition_randomized(int *a, int p, int r) {
 	int pivot_index = p + rand() % (r - p + 1);
 	swap(a, r, pivot_index);
@@ -44,10 +46,41 @@ void quicksort_randomized(int *a, int p, int r) {
 	}
 }
 
+// Hoare partition -------------------------------------------------------------
+int partition_hoare(int *a, int p, int r) {
+	int x = a[p];
+	int i = p - 1;
+	int j = r + 1;
+	while (true) {
+
+		do {
+			j--;
+		} while (a[j] > x);
+
+		do {
+			i++;
+		} while (a[i] < x);
+
+		if (i < j)
+			swap(a, i, j);
+		else
+			return j;
+	}
+}
+
+void quicksort_hoare(int *a, int p, int r) {
+	if (p < r) {
+		int q = partition_hoare(a, p, r);
+		quicksort_hoare(a, p, q);
+		quicksort_hoare(a, q + 1, r);
+	}
+}
+
+// Tests -----------------------------------------------------------------------
 int main(void) {
 	srand(time(NULL));
 
-	{ // 0
+	{ // 0 (regular partition)
 		int a[] = {2, 8, 7, 1, 3, 5, 6, 4};
 		const int n = int(sizeof(a) / sizeof(a[0]));
 		quicksort(a, 0, n - 1);
@@ -56,6 +89,17 @@ int main(void) {
 		cout << endl << endl;
 	}
 
+	{ // 1 (Hoare partition)
+		int a[] = {2, 8, 7, 1, 3, 5, 6, 4};
+		const int n = int(sizeof(a) / sizeof(a[0]));
+		quicksort_hoare(a, 0, n - 1);
+		for (int i = 0; i < n; i++)
+			cout << a[i] << " ";
+		cout << endl << endl;
+		//return 0;
+	}
+
+	// Regular partition
 	for (int test = 1; test < 20; test++) {
 		const int n = test;
 		int a[n] = {0};
@@ -78,6 +122,7 @@ int main(void) {
 		cout << "OK" << endl << endl;
 	}
 
+	// Randomized partition
 	for (int test = 1; test < 40; test++) {
 		const int n = test;
 		int a[n] = {0};
@@ -100,6 +145,28 @@ int main(void) {
 		cout << "OK" << endl << endl;
 	}
 
+	// Partition Hoare
+	for (int test = 1; test < 40; test++) {
+		const int n = test;
+		int a[n] = {0};
+		for (int i = 0; i < n; i++) {
+			a[i] = rand() % 20;
+			cout << a[i] << " ";
+		}
+		cout << endl;
+		quicksort_hoare(a, 0, n - 1);
+		for (int i = 0; i < n; i++)
+			cout << a[i] << " ";
+		cout << endl;
+
+		for (int i = 1; i < n; i++) {
+			if (a[i] < a[i - 1]) {
+				cout << "ERROR" << endl;
+				return 1;
+			}
+		}
+		cout << "OK" << endl << endl;
+	}
 
 	return 0;
 }
